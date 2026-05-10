@@ -1,2 +1,10 @@
-# JO4M.github.io
-My personal portofolio
+# Jordan Dieme — Portfolio
+
+Portfolio personnel de Jordan Ousseynou Dieme.  
+Développeur Full Stack · WordPress · Automatisation IA · Dakar, Sénégal.
+
+🌐 **Site live** : [jordandieme.github.io](https://jordandieme.github.io)
+
+---
+
+Built with HTML · CSS · JS — No framework, no dependencies.

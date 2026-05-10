@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jordan Dieme — Développeur Full Stack & IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060810;
+    --surface: #0D1117;
+    --surface2: #161B22;
+    --border: #21262D;
+    --accent: #00C9FF;
+    --accent2: #FF6B35;
+    --text: #E6EDF3;
+    --muted: #7D8590;
+    --green: #3FB950;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* BACKGROUND GRID */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,201,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,201,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NOISE OVERLAY */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  section, nav, header, footer { position: relative; z-index: 1; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(6,8,16,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* LANG SWITCHER */
+  .lang-switch {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .lang-btn {
+    padding: 0.3rem 0.7rem;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  .lang-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 600;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-name .line2 { color: var(--accent); }
+
+  .hero-desc {
+    max-width: 580px;
+    color: var(--muted);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .hero-desc strong { color: var(--text); font-weight: 500; }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,201,255,0.3);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* HERO STATS */
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .stat-num span { color: var(--accent); }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ─── SECTIONS COMMUNES ─── */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 4rem;
+  }
+
+  /* ─── ABOUT ─── */
+  #about { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+    font-weight: 300;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .about-right { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .value-card {
+    padding: 1.5rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .value-card:hover {
+    border-color: var(--accent);
+    transform: translateX(6px);
+  }
+
+  .value-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .value-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+
+  .value-card p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── SERVICES ─── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .service-card {
+    padding: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .service-card:hover { border-color: rgba(0,201,255,0.3); transform: translateY(-4px); }
+  .service-card:hover::before { opacity: 1; }
+
+  .service-card:nth-child(2)::before { background: linear-gradient(90deg, var(--accent2), transparent); }
+  .service-card:nth-child(3)::before { background: linear-gradient(90deg, var(--green), transparent); }
+
+  .service-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  .service-card:nth-child(2) .service-num { color: var(--accent2); }
+  .service-card:nth-child(3) .service-num { color: var(--green); }
+
+  .service-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+  .service-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .service-card p {
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+
+  .service-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text);
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ─── PROJETS ─── */
+  #projects { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .project-card:hover { border-color: rgba(0,201,255,0.3); transform: translateY(-4px); }
+
+  .project-thumb {
+    height: 200px;
+    background: linear-gradient(135deg, #0D1117 0%, #161B22 50%, #0D1117 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,201,255,0.05), rgba(255,107,53,0.05));
+  }
+
+  .project-thumb.media { background: linear-gradient(135deg, #0D1B2A, #1B2838); }
+  .project-thumb.rh { background: linear-gradient(135deg, #1A0D2E, #2D1B4E); }
+  .project-thumb.demo { background: linear-gradient(135deg, #0D1A0D, #1B2E1B); }
+
+  .project-body { padding: 1.75rem; }
+
+  .project-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    padding: 0.25rem 0.7rem;
+    background: rgba(0,201,255,0.08);
+    border: 1px solid rgba(0,201,255,0.15);
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .tag.orange { background: rgba(255,107,53,0.08); border-color: rgba(255,107,53,0.15); color: var(--accent2); }
+  .tag.green { background: rgba(63,185,80,0.08); border-color: rgba(63,185,80,0.15); color: var(--green); }
+
+  .project-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .project-card p {
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.25rem;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: gap 0.2s;
+  }
+
+  .project-link:hover { gap: 0.7rem; }
+
+  /* ─── STACK ─── */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .stack-cat { display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .stack-cat-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.2rem;
+  }
+
+  .stack-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .stack-item:hover { border-color: rgba(0,201,255,0.3); color: var(--accent); }
+  .stack-item .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .stack-item .dot.orange { background: var(--accent2); }
+  .stack-item .dot.green { background: var(--green); }
+  .stack-item .dot.purple { background: #A855F7; }
+
+  /* ─── CONTACT ─── */
+  #contact { background: var(--surface); border-top: 1px solid var(--border); }
+
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-left p {
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+
+  .contact-link:hover { border-color: var(--accent); transform: translateX(4px); }
+
+  .contact-link-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .contact-link-icon.wa { background: rgba(37,211,102,0.1); }
+  .contact-link-icon.li { background: rgba(0,119,181,0.1); }
+  .contact-link-icon.em { background: rgba(0,201,255,0.1); }
+
+  .contact-link-text { flex: 1; }
+  .contact-link-text strong { display: block; font-weight: 600; font-size: 0.95rem; }
+  .contact-link-text span { font-size: 0.8rem; color: var(--muted); }
+
+  .contact-link-arrow { color: var(--muted); font-size: 1rem; }
+
+  .availability-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(63,185,80,0.08);
+    border: 1px solid rgba(63,185,80,0.2);
+    border-radius: 100px;
+    font-size: 0.8rem;
+    color: var(--green);
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+
+  .availability-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .stack-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .stack-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">JD<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about" data-fr="À propos" data-en="About">À propos</a></li>
+    <li><a href="#services" data-fr="Services" data-en="Services">Services</a></li>
+    <li><a href="#projects" data-fr="Projets" data-en="Projects">Projets</a></li>
+    <li><a href="#stack" data-fr="Stack" data-en="Stack">Stack</a></li>
+    <li><a href="#contact" data-fr="Contact" data-en="Contact">Contact</a></li>
+  </ul>
+  <div class="lang-switch">
+    <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-tag" data-fr="Disponible pour missions freelance" data-en="Available for freelance projects">Disponible pour missions freelance</div>
+  <h1 class="hero-name">
+    <span class="line1">Jordan</span><br>
+    <span class="line2">Dieme.</span>
+  </h1>
+  <p class="hero-desc" data-fr="<strong>Développeur Full Stack</strong> spécialisé WordPress · <strong>Automatisation IA</strong> & Agents · Basé à Dakar. Je construis des solutions digitales qui font gagner du temps et génèrent de la valeur." data-en="<strong>Full Stack Developer</strong> specialized in WordPress · <strong>AI Automation</strong> & Agents · Based in Dakar. I build digital solutions that save time and generate real value.">
+    <strong>Développeur Full Stack</strong> spécialisé WordPress · <strong>Automatisation IA</strong> & Agents · Basé à Dakar. Je construis des solutions digitales qui font gagner du temps et génèrent de la valeur.
+  </p>
+  <div class="hero-ctas">
+    <a href="#contact" class="btn-primary">
+      <span data-fr="Me contacter" data-en="Get in touch">Me contacter</span>
+      <span>→</span>
+    </a>
+    <a href="#projects" class="btn-secondary">
+      <span data-fr="Voir mes projets" data-en="View my work">Voir mes projets</span>
+    </a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item fade-in">
+      <div class="stat-num">5<span>+</span></div>
+      <div class="stat-label" data-fr="Ans d'expérience" data-en="Years experience">Ans d'expérience</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-num">3</div>
+      <div class="stat-label" data-fr="Offres de service" data-en="Service offerings">Offres de service</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-num">2</div>
+      <div class="stat-label" data-fr="Langues (FR · EN)" data-en="Languages (FR · EN)">Langues (FR · EN)</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-num">100<span>%</span></div>
+      <div class="stat-label" data-fr="Remote friendly" data-en="Remote friendly">Remote friendly</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section">
+    <div class="section-tag" data-fr="— À PROPOS" data-en="— ABOUT">— À PROPOS</div>
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <h2 class="section-title" data-fr="Un profil<br>hors norme." data-en="An unusual<br>profile.">Un profil<br>hors norme.</h2>
+        <p data-fr="Mon parcours est atypique — et c'est exactement ce qui fait ma valeur. Diplômé en <strong>Ressources Humaines</strong> et <strong>Développement Web</strong>, j'ai passé des années à comprendre comment les gens travaillent, comment les organisations fonctionnent, et où elles perdent du temps." data-en="My background is unconventional — and that's exactly what makes it valuable. With degrees in both <strong>Human Resources</strong> and <strong>Web Development</strong>, I spent years understanding how people work, how organizations operate, and where they lose time.">
+          Mon parcours est atypique — et c'est exactement ce qui fait ma valeur. Diplômé en <strong>Ressources Humaines</strong> et <strong>Développement Web</strong>, j'ai passé des années à comprendre comment les gens travaillent, comment les organisations fonctionnent, et où elles perdent du temps.
+        </p>
+        <p data-fr="Aujourd'hui je construis les outils qui règlent ces problèmes. Je suis <strong>Développeur Full Stack</strong> spécialisé WordPress, avec une forte appétence pour l'<strong>automatisation par IA et les agents intelligents</strong>. Je prends les projets de A à Z — de la conception au déploiement." data-en="Today I build the tools that fix those problems. I'm a <strong>Full Stack Developer</strong> specialized in WordPress, with a strong focus on <strong>AI automation and intelligent agents</strong>. I take projects from concept to deployment.">
+          Aujourd'hui je construis les outils qui règlent ces problèmes. Je suis <strong>Développeur Full Stack</strong> spécialisé WordPress, avec une forte appétence pour l'<strong>automatisation par IA et les agents intelligents</strong>. Je prends les projets de A à Z — de la conception au déploiement.
+        </p>
+        <p data-fr="En parallèle, je suis <strong>coach sportif et fondateur de unesport.com</strong>, un média digital dédié au football sénégalais — où je combine éditorial, tech et IA pour bâtir un système de production de contenu moderne." data-en="Alongside this, I'm a <strong>sports coach and founder of unesport.com</strong>, a digital media platform focused on Senegalese football — combining editorial, tech, and AI to build a modern content production system.">
+          En parallèle, je suis <strong>coach sportif et fondateur de unesport.com</strong>, un média digital dédié au football sénégalais — où je combine éditorial, tech et IA pour bâtir un système de production de contenu moderne.
+        </p>
+      </div>
+      <div class="about-right fade-in">
+        <div class="value-card">
+          <div class="value-icon">🧠</div>
+          <h4 data-fr="Compréhension métier" data-en="Business understanding">Compréhension métier</h4>
+          <p data-fr="Je ne suis pas juste un dev. Je comprends les workflows humains et les contraintes organisationnelles — et je traduis ça en solutions concrètes." data-en="I'm not just a developer. I understand human workflows and business constraints — and I translate that into concrete solutions.">Je ne suis pas juste un dev. Je comprends les workflows humains et les contraintes organisationnelles — et je traduis ça en solutions concrètes.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🤖</div>
+          <h4 data-fr="Expertise IA & Automatisation" data-en="AI & Automation expertise">Expertise IA & Automatisation</h4>
+          <p data-fr="LLMs, agents IA, prompt engineering, intégrations API — je construis des systèmes qui travaillent pour vous en continu." data-en="LLMs, AI agents, prompt engineering, API integrations — I build systems that work for you around the clock.">LLMs, agents IA, prompt engineering, intégrations API — je construis des systèmes qui travaillent pour vous en continu.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">📍</div>
+          <h4 data-fr="Ancrage local, vision globale" data-en="Local roots, global vision">Ancrage local, vision globale</h4>
+          <p data-fr="Basé à Dakar, bilingue FR/EN, disponible en remote. Je connais le tissu économique sénégalais et les standards internationaux." data-en="Based in Dakar, bilingual FR/EN, remote-available. I know the Senegalese business landscape and international standards.">Basé à Dakar, bilingue FR/EN, disponible en remote. Je connais le tissu économique sénégalais et les standards internationaux.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section">
+    <div class="section-tag" data-fr="— SERVICES" data-en="— SERVICES">— SERVICES</div>
+    <h2 class="section-title fade-in" data-fr="Ce que je<br>construis pour vous." data-en="What I build<br>for you.">Ce que je<br>construis pour vous.</h2>
+    <p class="section-sub fade-in" data-fr="Trois offres claires, des livrables concrets." data-en="Three clear offerings, concrete deliverables.">Trois offres claires, des livrables concrets.</p>
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-num">01</div>
+        <div class="service-icon">🌐</div>
+        <h3 data-fr="Site WordPress" data-en="WordPress Website">Site WordPress</h3>
+        <p data-fr="Création ou refonte de votre site sur-mesure. Responsive, rapide, SEO-optimisé. Du site vitrine au site e-commerce, avec Elementor ou Divi." data-en="Build or redesign your custom website. Responsive, fast, SEO-optimized. From showcase sites to e-commerce, with Elementor or Divi.">Création ou refonte de votre site sur-mesure. Responsive, rapide, SEO-optimisé. Du site vitrine au site e-commerce, avec Elementor ou Divi.</p>
+        <div class="service-price" data-fr="À partir de 150 000 FCFA · ~250$" data-en="From $250">À partir de 150 000 FCFA · ~250$</div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">02</div>
+        <div class="service-icon">⚙️</div>
+        <h3 data-fr="Intégrations & API" data-en="Integrations & APIs">Intégrations & API</h3>
+        <p data-fr="Connexion d'outils, développement d'API REST, intégrations tierces. Je fais communiquer vos systèmes entre eux avec Node.js et PHP." data-en="Tool connections, REST API development, third-party integrations. I make your systems talk to each other using Node.js and PHP.">Connexion d'outils, développement d'API REST, intégrations tierces. Je fais communiquer vos systèmes entre eux avec Node.js et PHP.</p>
+        <div class="service-price" data-fr="Sur devis · Dès 200$" data-en="On quote · From $200">Sur devis · Dès 200$</div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">03</div>
+        <div class="service-icon">🤖</div>
+        <h3 data-fr="Automatisation IA" data-en="AI Automation">Automatisation IA</h3>
+        <p data-fr="Agents intelligents, workflows automatisés, intégration de LLMs dans vos processus métier. Gagnez du temps sur les tâches répétitives à haute valeur." data-en="Intelligent agents, automated workflows, LLM integration into your business processes. Save time on high-value repetitive tasks.">Agents intelligents, workflows automatisés, intégration de LLMs dans vos processus métier. Gagnez du temps sur les tâches répétitives à haute valeur.</p>
+        <div class="service-price" data-fr="Sur devis · Dès 300$" data-en="On quote · From $300">Sur devis · Dès 300$</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section">
+    <div class="section-tag" data-fr="— PROJETS" data-en="— PROJECTS">— PROJETS</div>
+    <h2 class="section-title fade-in" data-fr="Réalisations." data-en="Work.">Réalisations.</h2>
+    <p class="section-sub fade-in" data-fr="Des projets concrets, construits avec soin." data-en="Concrete projects, built with care.">Des projets concrets, construits avec soin.</p>
+    <div class="projects-grid">
+      <div class="project-card fade-in">
+        <div class="project-thumb media">⚽</div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">WordPress</span>
+            <span class="tag orange">IA</span>
+            <span class="tag green">Media</span>
+          </div>
+          <h3>unesport.com</h3>
+          <p data-fr="Média digital dédié au football sénégalais. Architecture WordPress sur-mesure, système de production de contenu alimenté par IA (agents Gemini), workflows éditoriaux automatisés." data-en="Digital media platform focused on Senegalese football. Custom WordPress architecture, AI-powered content production system (Gemini agents), automated editorial workflows.">Média digital dédié au football sénégalais. Architecture WordPress sur-mesure, système de production de contenu alimenté par IA (agents Gemini), workflows éditoriaux automatisés.</p>
+          <a href="https://unesport.com" target="_blank" class="project-link">
+            <span data-fr="Voir le site" data-en="Visit site">Voir le site</span> →
+          </a>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <div class="project-thumb rh">🏢</div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">WordPress</span>
+            <span class="tag orange">Elementor</span>
+          </div>
+          <h3 data-fr="Cabinet RH — Démo" data-en="HR Firm — Demo">Cabinet RH — Démo</h3>
+          <p data-fr="Site vitrine pour cabinet de conseil RH. Design professionnel, formulaires de contact intégrés, optimisation SEO complète." data-en="Showcase site for an HR consulting firm. Professional design, integrated contact forms, full SEO optimization.">Site vitrine pour cabinet de conseil RH. Design professionnel, formulaires de contact intégrés, optimisation SEO complète.</p>
+          <a href="#contact" class="project-link">
+            <span data-fr="Demander une démo" data-en="Request a demo">Demander une démo</span> →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="section">
+    <div class="section-tag" data-fr="— STACK TECHNIQUE" data-en="— TECH STACK">— STACK TECHNIQUE</div>
+    <h2 class="section-title fade-in" data-fr="Outils &<br>technologies." data-en="Tools &<br>technologies.">Outils &<br>technologies.</h2>
+    <div class="stack-grid fade-in">
+      <div class="stack-cat">
+        <div class="stack-cat-title">Frontend</div>
+        <div class="stack-item"><span class="dot"></span>HTML / CSS / JS</div>
+        <div class="stack-item"><span class="dot"></span>React</div>
+        <div class="stack-item"><span class="dot"></span>Elementor</div>
+        <div class="stack-item"><span class="dot"></span>Divi</div>
+      </div>
+      <div class="stack-cat">
+        <div class="stack-cat-title">Backend</div>
+        <div class="stack-item"><span class="dot orange"></span>Node.js</div>
+        <div class="stack-item"><span class="dot orange"></span>PHP</div>
+        <div class="stack-item"><span class="dot orange"></span>WordPress</div>
+        <div class="stack-item"><span class="dot orange"></span>REST API</div>
+      </div>
+      <div class="stack-cat">
+        <div class="stack-cat-title">Data</div>
+        <div class="stack-item"><span class="dot green"></span>MySQL</div>
+        <div class="stack-item"><span class="dot green"></span>MongoDB</div>
+        <div class="stack-item"><span class="dot green"></span>JSON / XML</div>
+      </div>
+      <div class="stack-cat">
+        <div class="stack-cat-title">IA & Automatisation</div>
+        <div class="stack-item"><span class="dot purple"></span>Gemini API</div>
+        <div class="stack-item"><span class="dot purple"></span>Claude API</div>
+        <div class="stack-item"><span class="dot purple"></span>Prompt Eng.</div>
+        <div class="stack-item"><span class="dot purple"></span>Agents IA</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section">
+    <div class="section-tag" data-fr="— CONTACT" data-en="— CONTACT">— CONTACT</div>
+    <div class="contact-inner">
+      <div class="contact-left fade-in">
+        <h2 class="section-title" data-fr="Travaillons<br>ensemble." data-en="Let's work<br>together.">Travaillons<br>ensemble.</h2>
+        <div class="availability-badge" data-fr="Disponible · Dakar & Remote" data-en="Available · Dakar & Remote">Disponible · Dakar & Remote</div>
+        <p data-fr="Vous avez un projet de site, une idée d'automatisation, ou vous voulez simplement explorer comment le digital peut transformer votre activité ? Écrivez-moi." data-en="You have a website project, an automation idea, or just want to explore how digital can transform your business? Reach out.">Vous avez un projet de site, une idée d'automatisation, ou vous voulez simplement explorer comment le digital peut transformer votre activité ? Écrivez-moi.</p>
+      </div>
+      <div class="contact-links fade-in">
+        <a href="https://wa.me/221XXXXXXXXX" class="contact-link" target="_blank">
+          <div class="contact-link-icon wa">💬</div>
+          <div class="contact-link-text">
+            <strong>WhatsApp</strong>
+            <span data-fr="Message direct · Réponse rapide" data-en="Direct message · Fast response">Message direct · Réponse rapide</span>
+          </div>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a href="https://linkedin.com/in/jordandieme" class="contact-link" target="_blank">
+          <div class="contact-link-icon li">💼</div>
+          <div class="contact-link-text">
+            <strong>LinkedIn</strong>
+            <span data-fr="Jordan Ousseynou Dieme" data-en="Jordan Ousseynou Dieme">Jordan Ousseynou Dieme</span>
+          </div>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a href="mailto:contact@jordandieme.com" class="contact-link">
+          <div class="contact-link-icon em">✉️</div>
+          <div class="contact-link-text">
+            <strong>Email</strong>
+            <span>contact@jordandieme.com</span>
+          </div>
+          <span class="contact-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span data-fr="© 2026 Jordan Dieme · Dakar, Sénégal · Construit avec soin ☕" data-en="© 2026 Jordan Dieme · Dakar, Senegal · Built with care ☕">© 2026 Jordan Dieme · Dakar, Sénégal · Construit avec soin ☕</span>
+</footer>
+
+<script>
+  // LANG SWITCHER
+  function setLang(lang) {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+    document.querySelectorAll('[data-fr]').forEach(el => {
+      const val = el.getAttribute('data-' + lang);
+      if (val) el.innerHTML = val;
+    });
+    document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
+  }
+
+  // SCROLL ANIMATIONS
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // SMOOTH ACTIVE NAV
+  window.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('section[id]');
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
