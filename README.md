@@ -3,7 +3,7 @@
 Portfolio personnel de Jordan Ousseynou Dieme.  
 Développeur Full Stack · WordPress · Automatisation IA · Dakar, Sénégal.
 
-🌐 **Site live** : [jordandieme.github.io](https://JO4M.github.io)
+🌐 **Site live** : [JO4M.github.io](https://JO4M.github.io)
 
 ---
 
